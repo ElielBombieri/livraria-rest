@@ -1,10 +1,10 @@
 import express from 'express';
-
+import hello from '../controllers/hello.controller.js';
+import mostraLivros from '../controllers/livros.controller.js';
 const app = express();
 
-function helloRest(req, res) {
-    res.status(200).send('Bem vindo à API Rest Livraria')
-}
-app.get("/", helloRest)
+app.get("/", hello)
+app.get("/livros", mostraLivros)
+
 
 export default app;
