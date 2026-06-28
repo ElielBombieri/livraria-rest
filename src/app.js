@@ -1,10 +1,10 @@
 import express from 'express';
-import hello from '../controllers/hello.controller.js';
+import hello from './controllers/hello.controller.js';
 import { 
     mostraLivros, criaLirvo, 
     mostraLivroId, alteraLivro,
     removerLivro 
-    } from '../controllers/livros.controller.js';
+    } from './controllers/livros.controller.js';
 
 const app = express();
 app.use(express.json());
