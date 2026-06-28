@@ -13,7 +13,7 @@ function buscaIndex(id) {
 }
 
 export function mostraLivros(req, res) {
-    res.status(200).json(livros);
+    res.status(200).json(livros);   
 }
 
 export function mostraLivroId(req, res) {
@@ -23,6 +23,18 @@ export function mostraLivroId(req, res) {
 
 export function criaLirvo(req, res) {
     livros.push(req.body);
-    res.status(201).send("Livro cadastrado com sucesso!");
+    res.status(201).send("Elemento cadastrado com sucesso!");
 
+}
+
+export function alteraLivro(req, res) {
+    const index = buscaIndex(req.params.id);
+    livros[index].titulo = req.body.titulo;
+    res.status(200).json(livros[index]);   
+}
+
+export function removerLivro(req, res) {
+    const index = buscaIndex(req.params.id);
+    livros.splice(index, 1);
+    res.status(200).send("Elemento removido com sucesso!")
 }
