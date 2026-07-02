@@ -160,7 +160,6 @@ livraria-rest/
 │   ├── config/
 │   │   └── db.connect.js       # Configuração do MongoDB
 │   ├── controllers/
-│   │   ├── hello.controller.js # Controller de teste
 │   │   └── Livro.controller.js # Controller de livros
 │   ├── models/
 │   │   └── Livro.model.js      # Schema do Mongoose
