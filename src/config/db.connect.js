@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 async function conectarBD() {
-    mongoose.connect("mongodb+srv://Eliel:1234@cluster0.e8ms4mw.mongodb.net/livraria?appName=Cluster0");
+    mongoose.connect(process.env.MONGODB_URI);
     return mongoose.connection;
 }
 
