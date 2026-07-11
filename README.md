@@ -1,263 +1,153 @@
 # Livraria REST API
 
-Uma API REST moderna e eficiente para gerenciamento de livros. Construída com Node.js, Express e MongoDB.
+API REST desenvolvida em Node.js com Express e MongoDB para gerenciar livros e autores em uma livraria.
 
-## Sobre o Projeto
+## Sobre o projeto
 
-A Livraria REST API é uma aplicação backend robusta que fornece endpoints para operações CRUD completas (Create, Read, Update, Delete) de livros. Ideal para plataformas de bibliotecas digitais, lojas de livros online ou sistemas de catalogação.
+Esta aplicação foi criada para praticar e consolidar conceitos de desenvolvimento backend com JavaScript, incluindo:
+
+- criação de uma API REST;
+- conexão com banco de dados MongoDB;
+- uso de Mongoose para modelagem de dados;
+- organização em camadas com rotas, controllers e models;
+- operações CRUD para livros e autores.
+
+## Tecnologias utilizadas
+
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- dotenv
+- ES modules
 
 ## Funcionalidades
 
 - Listar todos os livros
-- Buscar livro por ID
-- Criar novo livro
-- Atualizar informações do livro
-- Deletar livro
-- Tratamento robusto de erros
-- Validação de dados
-
-## Tecnologias
-
-- **Node.js** - Runtime JavaScript
-- **Express.js** - Framework web
-- **MongoDB** - Banco de dados NoSQL
-- **Mongoose** - ODM para MongoDB
-- **ES6 Modules** - Modularização moderna
+- Buscar um livro por ID
+- Criar um novo livro
+- Atualizar um livro existente
+- Excluir um livro
+- Buscar livros por editora
+- Gerenciar autores com operações CRUD
 
 ## Pré-requisitos
 
-Antes de começar, certifique-se de ter instalado:
+Antes de executar o projeto, certifique-se de ter instalado:
 
-- Node.js (v14 ou superior)
-- npm ou yarn
-- MongoDB (local ou Atlas)
+- Node.js (versão 18 ou superior é recomendada)
+- npm
+- MongoDB rodando localmente ou em um serviço como MongoDB Atlas
 
 ## Instalação
 
-1. Clone o repositório
+1. Clone o repositório:
+
 ```bash
-git clone <seu-repositorio>
+git clone <url-do-repositorio>
 cd livraria-rest
 ```
 
-2. Instale as dependências
+2. Instale as dependências:
+
 ```bash
 npm install
 ```
 
-3. Configure as variáveis de ambiente
+3. Crie um arquivo `.env` na raiz do projeto com a seguinte variável:
 
-Crie um arquivo `.env` na raiz do projeto:
 ```env
-PORT=3000
 MONGODB_URI=mongodb://localhost:27017/livraria
-NODE_ENV=development
 ```
 
-4. Inicie o servidor
+4. Inicie o servidor:
+
 ```bash
 npm run dev
 ```
 
-O servidor estará rodando em `http://localhost:3000`
+A API ficará disponível em:
 
-## Endpoints
-
-### Listar todos os livros
-```http
-GET /livros
-```
-**Resposta (200):**
-```json
-[
-  {
-    "_id": "123456",
-    "titulo": "Clean Code",
-    "autor": "Robert C. Martin",
-    "ano": 2008
-  }
-]
+```text
+http://localhost:3000
 ```
 
-### Buscar livro por ID
-```http
-GET /livros/:id
-```
-**Parâmetros:**
-- `id` (string) - ID do livro no MongoDB
+## Estrutura do projeto
 
-**Resposta (200):**
-```json
-{
-  "_id": "123456",
-  "titulo": "Clean Code",
-  "autor": "Robert C. Martin",
-  "ano": 2008
-}
-```
-
-### Criar novo livro
-```http
-POST /livros
-Content-Type: application/json
-
-{
-  "titulo": "Clean Code",
-  "autor": "Robert C. Martin",
-  "ano": 2008
-}
-```
-
-**Resposta (200):**
-```json
-{
-  "message": "Criado com sucesso!",
-  "livro": {
-    "_id": "123456",
-    "titulo": "Clean Code",
-    "autor": "Robert C. Martin",
-    "ano": 2008
-  }
-}
-```
-
-### Atualizar livro
-```http
-PUT /livros/:id
-Content-Type: application/json
-
-{
-  "titulo": "Clean Code - 2ª edição",
-  "autor": "Robert C. Martin",
-  "ano": 2008
-}
-```
-
-**Resposta (200):**
-```json
-{
-  "message": "Livro alterado com sucesso!"
-}
-```
-
-### Deletar livro
-```http
-DELETE /livros/:id
-```
-
-**Resposta (200):**
-```json
-{
-  "message": "Livro excluído com sucesso!"
-}
-```
-
-## Estrutura do Projeto
-
-```
+```text
 livraria-rest/
 ├── src/
+│   ├── app.js
 │   ├── config/
-│   │   └── db.connect.js       # Configuração do MongoDB
+│   │   └── db.connect.js
 │   ├── controllers/
-│   │   └── Livro.controller.js # Controller de livros
+│   │   ├── Autor.controller.js
+│   │   └── Livro.controller.js
 │   ├── models/
-│   │   └── Livro.model.js      # Schema do Mongoose
-│   ├── routes/
-│   │   ├── index.js            # Rotas principais
-│   │   └── Livro.routes.js     # Rotas de livros
-│   └── app.js                  # Configuração da aplicação
-├── models/                      # Modelos adicionais
+│   │   ├── Autor.model.js
+│   │   └── Livro.model.js
+│   └── routes/
+│       ├── Autor.routes.js
+│       ├── Livro.routes.js
+│       └── index.js
+├── server.js
 ├── package.json
-├── server.js                   # Entrada da aplicação
 └── README.md
 ```
 
-## Scripts Disponíveis
+## Endpoints
+
+### Rotas de livros
+
+- `GET /livros` — lista todos os livros
+- `GET /livros/:id` — busca um livro por ID
+- `GET /livros/busca?editora=...` — filtra livros por editora
+- `POST /livros` — cria um novo livro
+- `PUT /livros/:id` — atualiza um livro
+- `DELETE /livros/:id` — remove um livro
+
+### Rotas de autores
+
+- `GET /autores` — lista todos os autores
+- `GET /autores/:id` — busca um autor por ID
+- `POST /autores` — cria um novo autor
+- `PUT /autores/:id` — atualiza um autor
+- `DELETE /autores/:id` — remove um autor
+
+## Exemplo de uso
+
+### Criar um livro
 
 ```bash
-# Iniciar servidor em modo desenvolvimento (com auto-reload)
-npm run dev
-
-# Iniciar servidor em produção
-npm start
-```
-
-## Tratamento de Erros
-
-A API retorna mensagens de erro estruturadas:
-
-```json
-{
-  "message": "Falha na listagem dos livros: erro específico"
-}
-```
-
-Todos os erros retornam status HTTP 500 com detalhes da exceção.
-
-## Exemplo de Uso
-
-### Usando cURL
-
-```bash
-# Listar todos os livros
-curl http://localhost:3000/livros
-
-# Criar novo livro
 curl -X POST http://localhost:3000/livros \
   -H "Content-Type: application/json" \
-  -d '{"titulo":"1984","autor":"George Orwell","ano":1949}'
-
-# Buscar livro específico
-curl http://localhost:3000/livros/123456
-
-# Atualizar livro
-curl -X PUT http://localhost:3000/livros/123456 \
-  -H "Content-Type: application/json" \
-  -d '{"titulo":"1984 - Edição Especial"}'
-
-# Deletar livro
-curl -X DELETE http://localhost:3000/livros/123456
+  -d '{
+    "titulo": "Clean Code",
+    "editora": "Alta Books",
+    "preco": 89.9,
+    "paginas": 464,
+    "autor": "64f1a2b3c4d5e6f7a8b9c0d"
+  }'
 ```
 
-## Boas Práticas
+### Listar todos os livros
 
-- Valide sempre os dados de entrada
-- Use variáveis de ambiente para configurações sensíveis
-- Implemente autenticação em produção
-- Adicione rate limiting para evitar abuso
-- Mantenha logs detalhados de operações
-- Realize testes unitários regularmente
-
-## Modelo de Dados (Livro)
-
-```javascript
-{
-  _id: ObjectId,
-  titulo: String,
-  autor: String,
-  ano: Number,
-  // Adicione mais campos conforme necessário
-}
+```bash
+curl http://localhost:3000/livros
 ```
 
-## Deploy
+## Observações
 
-Para fazer deploy da aplicação:
+- A aplicação está em uma fase inicial e pode ser expandida com validações mais robustas, autenticação, testes automatizados e documentação com Swagger.
+- O projeto também pode servir como base para uma aplicação mais completa de e-commerce ou catálogo de livros.
 
-1. Configure as variáveis de ambiente no seu hosting
-2. Certifique-se de que o MongoDB está acessível
-3. Execute `npm install` e `npm start`
-4. Configure um reverse proxy (nginx/Apache) se necessário
+## Próximos passos sugeridos
 
-## Suporte
-
-Se encontrar algum problema:
-
-1. Verifique se o MongoDB está rodando
-2. Confirme se as variáveis de ambiente estão configuradas
-3. Verifique os logs do servidor
-4. Abra uma issue no repositório
+- adicionar validação de dados nas entradas;
+- implementar tratamento de erros mais detalhado com status HTTP corretos;
+- criar testes automatizados;
+- adicionar autenticação e autorização;
+- documentar a API com Swagger/OpenAPI.
 
 ## Licença
 
