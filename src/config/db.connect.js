@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
 
-async function conectarBD() {
-    mongoose.connect(process.env.MONGODB_URI);
-    return mongoose.connection;
-}
+mongoose.connect(process.env.MONGODB_URI);
 
-export default conectarBD;
+let db = mongoose.connection;
+
+export default db;

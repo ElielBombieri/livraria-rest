@@ -4,8 +4,8 @@ const AutorSchema = new mongoose.Schema({
     id: { type: mongoose.Schema.Types.ObjectId },
     nome: { type: String, required: false },
     nacionalidade: { type: String }
-}, { versionKey: false })
+}, { versionKey: false });
 
 const autor = mongoose.model("autores", AutorSchema);
 
-export { autor, AutorSchema }
+export { autor, AutorSchema };

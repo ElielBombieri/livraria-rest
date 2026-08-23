@@ -10,7 +10,7 @@ const livroSchema = new mongoose.Schema({
     autor: AutorSchema
 }, {
     versionKey: false
-})
+});
 
 const livro = mongoose.model("livros", livroSchema);
 
