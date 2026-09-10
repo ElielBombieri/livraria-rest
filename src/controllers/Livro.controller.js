@@ -3,27 +3,27 @@ import { autor } from "../models/Autor.model.js";
 
 class livroController {
 
-    static async listarLivros(req, res) {
+    static async listarLivros(req, res, next) {
         try {
             const livros = await livro.find({});
             res.status(200).json(livros);
 
         } catch (erro) {
-            res.status(500).json({ message: `Falha na listagem dos livros: ${erro.message}` });
+            next(erro);
         }
     }
 
-    static async listarLivroId(req, res) {
+    static async listarLivroId(req, res, next) {
         try {
             const id = req.params.id;
             const livroEncontrado = await livro.findById(id);
             res.status(200).json(livroEncontrado);
         } catch (erro) {
-            res.status(500).json({ message: `Falha na listagem dos livros: ${erro.message}` });
+            next(erro);
         }
     }
 
-    static async criarLivro(req, res) {
+    static async criarLivro(req, res, next) {
         const novoLivro = req.body;
 
         try {
@@ -36,13 +36,11 @@ class livroController {
                 livro: livroCriado
             });
         } catch (erro) {
-            res.status(500).json({
-                message: `Erro ao cadastrar livro: ${erro.message}`
-            });
+            next(erro);
         }
     }
 
-    static async alterarLivro(req, res) {
+    static async alterarLivro(req, res, next) {
         const novoLivro = req.body;
         const id = req.params.id;
 
@@ -56,28 +54,28 @@ class livroController {
             }
             res.status(200).json({ message: "Livro alterado com sucesso!" });
         } catch (erro) {
-            res.status(500).json({ message: `Falha na alteração do livro: ${erro.message}` });
+            next(erro);
         }
     }
 
-    static async removerLivro(req, res) {
+    static async removerLivro(req, res, next) {
         try {
             const id = req.params.id;
             await livro.findByIdAndDelete(id);
             res.status(200).json({ message: "Livro excluido com sucesso!" });
         } catch (erro) {
-            res.status(500).json({ message: `Falha na exclusão do livro: ${erro.message}` });
+            next(erro);
         }
     }
 
-    static async listarLivrosPorEditora(req, res) {
+    static async listarLivrosPorEditora(req, res, next) {
         const editora = req.query.editora;
 
         try {
             const livros = await livro.find({ editora });
             res.status(200).json(livros);
         } catch (erro) {
-            res.status(500).json({ message: `Falha na buscar por editora do livro: ${erro.message}` });
+            next(erro);
         }
 
     }
