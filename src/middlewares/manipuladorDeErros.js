@@ -1,16 +1,17 @@
 import mongoose from "mongoose";
+import ErroBase from "../Erros/ErroBase.js";
+import ReqIncorreta from "../Erros/ReqIncorreta.js";
+import ErroValidacao from "../Erros/ErroValidacao.js";
 
 
 // eslint-disable-next-line no-unused-vars
 function manipuladorDeErros(erro, req, res, next) {
     if (erro instanceof mongoose.Error.CastError) {
-        res.status(400).send({ message: "Um ou mais dados fornecidos estão incorretos." });
+        new ReqIncorreta().enviarResposta(res);
     } else if (erro instanceof mongoose.Error.ValidationError) {
-        const menssagemErro = Object.values(erro.errors).map(erro => erro.message).join("; ");
-
-        res.status(400).send({ message: `Erro(s) de validação: ${menssagemErro}` });
+        new ErroValidacao(erro).enviarResposta(res);
     } else {
-        res.status(500).send({ message: `Falha no servidor: ${erro.message}` });
+        new ErroBase(erro).enviarResposta(res);
     }
 }
 
