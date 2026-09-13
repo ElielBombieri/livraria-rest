@@ -1,3 +1,4 @@
+import NaoEncontrado from "../Erros/NaoEncontrado.js";
 import { autor } from "../models/Autor.model.js";
 
 class autorController {
@@ -15,13 +16,12 @@ class autorController {
     static async listarAutorId(req, res, next) {
         try {
             const id = req.params.id;
-
             const autorEncontrado = await autor.findById(id);
 
             if (autorEncontrado !== null) {
                 res.status(200).send(autorEncontrado);
             } else {
-                res.status(404).send({ message: "ID do autor não localizado." });
+                next(new NaoEncontrado("Id do autor não localizado."));
             }
         } catch (erro) {
             next(erro);
@@ -43,8 +43,14 @@ class autorController {
     static async alterarAutor(req, res, next) {
         try {
             const id = req.params.id;
-            await autor.findByIdAndUpdate(id, req.body);
-            res.status(200).json({ message: "autor alterado com sucesso!" });
+            const autorEncontrado = await autor.findById(id);
+
+            if (autorEncontrado !== null) {
+                await autor.findByIdAndUpdate(id, req.body);
+                res.status(200).json({ message: "autor alterado com sucesso!" });
+            } else {
+                next(new NaoEncontrado("Id do autor não localizado."));
+            }
         } catch (erro) {
             next(erro);
         }
@@ -53,8 +59,14 @@ class autorController {
     static async removerAutor(req, res, next) {
         try {
             const id = req.params.id;
-            await autor.findByIdAndDelete(id);
-            res.status(200).json({ message: "autor excluido com sucesso!" });
+            const autorEncontrado = await autor.findById(id);
+
+            if (autorEncontrado !== null) {
+                await autor.findByIdAndDelete(id);
+                res.status(200).json({ message: "autor excluido com sucesso!" });
+            } else {
+                next(new NaoEncontrado("Id do autor não localizado."));
+            }
         } catch (erro) {
             next(erro);
         }
